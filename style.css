@@ -1,0 +1,42 @@
+/* Google Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Basic Reset & Base Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fafc; 
+    color: #0f172a; 
+    margin: 0;
+    padding: 0;
+}
+
+/* Custom Transition for Buttons */
+button {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Active Tab Styling */
+.tab-btn.active {
+    background-color: #2563eb; 
+    color: white;
+    border-color: #2563eb;
+}
+
+/* Responsive Container */
+.container-custom {
+    max-width: 896px; 
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Scrollbar styling  */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
