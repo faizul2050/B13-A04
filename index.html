@@ -4,48 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Application Tracker</title>
+<!-- Tailwind CSS CDN for utility-first styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
     </style>
 </head>
 <body class="text-slate-800 antialiased p-4 md:p-8">
 
+<!-- Main container with responsive  -->
     <div class="max-w-4xl mx-auto">
+<!-- Page header with application title -->
         <h1 class="text-2xl font-bold mb-6 text-slate-900">Job Application Tracker</h1>
         
+<!-- Stats cards grid showing application metrics -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+<!-- Total applications card -->
             <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
                 <h2 class="text-sm font-medium text-slate-500 mb-1">Total</h2>
                 <p id="total-count" class="text-2xl font-bold text-slate-900">8</p>
             </div>
+<!-- Applications with interview status card (green accent) -->
             <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
                 <h2 class="text-sm font-medium text-slate-500 mb-1">Interview</h2>
                 <p id="interview-count" class="text-2xl font-bold text-emerald-600">0</p>
             </div>
+<!-- Rejected applications card (red accent) -->
             <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
                 <h2 class="text-sm font-medium text-slate-500 mb-1">Rejected</h2>
                 <p id="rejected-count" class="text-2xl font-bold text-rose-600">0</p>
             </div>
         </div>
 
+<!-- Section header with job count and filter tabs -->
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-bold text-slate-900">Available Jobs</h2>
+<!-- Dynamic job count that updates based on current filter -->
             <p class="text-sm text-slate-500"><span id="tab-count">8</span> jobs</p>
         </div>
 
+<!-- Filter tabs container for status-based filtering -->
         <div class="flex space-x-2 mb-6" id="tabs-container">
+<!-- All jobs tab -->
             <button data-tab="All" class="tab-btn active px-4 py-1.5 text-sm font-medium rounded-md bg-blue-600 text-white transition-colors">All</button>
+<!-- Interview filter tab -->
             <button data-tab="Interview" class="tab-btn px-4 py-1.5 text-sm font-medium rounded-md bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 transition-colors">Interview</button>
+<!-- Rejected filter tab-->
             <button data-tab="Rejected" class="tab-btn px-4 py-1.5 text-sm font-medium rounded-md bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 transition-colors">Rejected</button>
         </div>
 
+<!-- Dynamic container for job cards-->
         <div id="jobs-container" class="space-y-4">
-            </div>
+
+        </div>
 
     </div>
 
+<!-- JavaScript files-->
     <script src="data.js"></script>
     <script src="dom.js"></script>
     <script src="script.js"></script>
