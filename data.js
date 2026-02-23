@@ -42,21 +42,5 @@ let jobs = [
     }
 ];
 
+// Active Tab State
 let activeTab = "All";
-
-// Data utility functions
-function getJobs() {
-    return jobs;
-}
-
-function updateJobsData(newJobs) {
-    jobs = newJobs;
-}
-
-function getActiveTab() {
-    return activeTab;
-}
-
-function setActiveTab(tab) {
-    activeTab = tab;
-}

@@ -4,108 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Application Tracker</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Base CSS -->
-    <link rel="stylesheet" href="style.css">
-    <!-- UI CSS -->
-    <link rel="stylesheet" href="ui.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+    </style>
 </head>
-<body class="antialiased p-4 md:p-8">
+<body class="text-slate-800 antialiased p-4 md:p-8">
 
     <div class="max-w-4xl mx-auto">
-        <!-- Header with icon -->
-        <div class="text-center mb-10">
-            <div class="inline-block p-4 bg-white rounded-full shadow-lg mb-4">
-                <i class="fas fa-briefcase text-4xl text-purple-600"></i>
-            </div>
-            <h1 class="text-4xl font-bold text-white mb-2">Job Application Tracker</h1>
-            <p class="text-white text-opacity-90 text-lg">Track your job applications in style</p>
-        </div>
+        <h1 class="text-2xl font-bold mb-6 text-slate-900">Job Application Tracker</h1>
         
-        <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            <!-- Total Jobs Card -->
-            <div class="stats-card bg-white p-6 rounded-xl shadow-lg border-l-4 border-blue-500 fade-in">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Total</p>
-                        <p id="total-count" class="text-3xl font-bold text-gray-900 mt-2">8</p>
-                    </div>
-                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-briefcase text-2xl text-blue-600"></i>
-                    </div>
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+            <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                <h2 class="text-sm font-medium text-slate-500 mb-1">Total</h2>
+                <p id="total-count" class="text-2xl font-bold text-slate-900">8</p>
             </div>
-
-            <!-- Interview Card -->
-            <div class="stats-card bg-white p-6 rounded-xl shadow-lg border-l-4 border-emerald-500 fade-in">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Interview</p>
-                        <p id="interview-count" class="text-3xl font-bold text-gray-900 mt-2">0</p>
-                    </div>
-                    <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-calendar-check text-2xl text-emerald-600"></i>
-                    </div>
-                </div>
+            <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                <h2 class="text-sm font-medium text-slate-500 mb-1">Interview</h2>
+                <p id="interview-count" class="text-2xl font-bold text-emerald-600">0</p>
             </div>
-
-            <!-- Rejected Card -->
-            <div class="stats-card bg-white p-6 rounded-xl shadow-lg border-l-4 border-rose-500 fade-in">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Rejected</p>
-                        <p id="rejected-count" class="text-3xl font-bold text-gray-900 mt-2">0</p>
-                    </div>
-                    <div class="w-12 h-12 bg-rose-100 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-times-circle text-2xl text-rose-600"></i>
-                    </div>
-                </div>
+            <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                <h2 class="text-sm font-medium text-slate-500 mb-1">Rejected</h2>
+                <p id="rejected-count" class="text-2xl font-bold text-rose-600">0</p>
             </div>
         </div>
 
-        <!-- Jobs Section with glass effect -->
-        <div class="glass-effect rounded-2xl p-6 shadow-2xl">
-            <!-- Section Header -->
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-                <div>
-                    <h2 class="text-2xl font-bold text-gray-900 flex items-center">
-                        <i class="fas fa-list-ul text-purple-600 mr-2"></i>
-                        Available Jobs
-                    </h2>
-                </div>
-                <!-- Job count badge -->
-                <div class="mt-4 md:mt-0 flex items-center bg-white px-4 py-2 rounded-lg shadow-sm">
-                    <i class="fas fa-briefcase text-gray-400 mr-2"></i>
-                    <span class="font-semibold text-gray-900" id="tab-count">8</span>
-                    <span class="text-gray-500 ml-1">jobs</span>
-                </div>
-            </div>
-
-            <!-- Tab Buttons -->
-            <div class="flex space-x-3 mb-8" id="tabs-container">
-                <button data-tab="All" class="tab-btn active px-6 py-2.5 text-sm font-semibold rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg">
-                    <i class="fas fa-globe mr-2"></i>All
-                </button>
-                <button data-tab="Interview" class="tab-btn px-6 py-2.5 text-sm font-semibold rounded-lg bg-white text-gray-700 border border-gray-200">
-                    <i class="fas fa-calendar-check mr-2"></i>Interview
-                </button>
-                <button data-tab="Rejected" class="tab-btn px-6 py-2.5 text-sm font-semibold rounded-lg bg-white text-gray-700 border border-gray-200">
-                    <i class="fas fa-times-circle mr-2"></i>Rejected
-                </button>
-            </div>
-
-            <!-- Jobs Container -->
-            <div id="jobs-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Jobs will be dynamically added here -->
-            </div>
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold text-slate-900">Available Jobs</h2>
+            <p class="text-sm text-slate-500"><span id="tab-count">8</span> jobs</p>
         </div>
+
+        <div class="flex space-x-2 mb-6" id="tabs-container">
+            <button data-tab="All" class="tab-btn active px-4 py-1.5 text-sm font-medium rounded-md bg-blue-600 text-white transition-colors">All</button>
+            <button data-tab="Interview" class="tab-btn px-4 py-1.5 text-sm font-medium rounded-md bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 transition-colors">Interview</button>
+            <button data-tab="Rejected" class="tab-btn px-4 py-1.5 text-sm font-medium rounded-md bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 transition-colors">Rejected</button>
+        </div>
+
+        <div id="jobs-container" class="space-y-4">
+            </div>
+
     </div>
 
-    <!-- JavaScript Files -->
     <script src="data.js"></script>
     <script src="dom.js"></script>
     <script src="script.js"></script>
