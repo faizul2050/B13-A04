@@ -43,3 +43,139 @@ let jobs = [
 ];
 
 let activeTab = "All";
+
+
+
+
+
+// Update Dashboard Counts
+function updateDashboard() {
+    const total = jobs.length;
+    const interview = jobs.filter(job => job.status === "INTERVIEW").length;
+    const rejected = jobs.filter(job => job.status === "REJECTED").length;
+
+    totalCountEl.textContent = total;
+    interviewCountEl.textContent = interview;
+    rejectedCountEl.textContent = rejected;
+}
+
+// Render Job Cards based on active tab
+function renderJobs() {
+// Filter jobs
+    const filteredJobs = jobs.filter(job => {
+        if (activeTab === "All") return true;
+        if (activeTab === "Interview") return job.status === "INTERVIEW";
+        if (activeTab === "Rejected") return job.status === "REJECTED";
+    });
+
+    tabCountEl.textContent = filteredJobs.length;
+    jobsContainer.innerHTML = '';
+
+    // Empty State
+    if (filteredJobs.length === 0) {
+        jobsContainer.innerHTML = `
+            <div class="bg-white p-12 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-center shadow-sm">
+                <svg class="w-16 h-16 text-blue-400 mb-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                </svg>
+                <h3 class="text-xl font-bold text-slate-800 mb-1">No jobs available</h3>
+                <p class="text-slate-500 text-sm">Check back soon for new job opportunities</p>
+            </div>
+        `;
+        return;
+    }
+
+// Render Cards
+    filteredJobs.forEach(job => {
+        const isInterview = job.status === "INTERVIEW";
+        const isRejected = job.status === "REJECTED";
+        
+// Dynamic status badge styling
+        let statusBadgeClass = "bg-slate-100 text-slate-600";
+        if (isInterview) statusBadgeClass = "bg-emerald-100 text-emerald-700";
+        if (isRejected) statusBadgeClass = "bg-rose-100 text-rose-700";
+
+        const card = document.createElement('div');
+        card.className = "bg-white p-6 rounded-lg border border-slate-200 shadow-sm relative transition-all";
+        
+        card.innerHTML = `
+            <button onclick="deleteJob(${job.id})" class="absolute top-4 right-4 text-slate-400 hover:text-rose-500 transition-colors" title="Delete Job">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            
+            <h3 class="text-lg font-bold text-slate-900">${job.companyName}</h3>
+            <p class="text-slate-600 text-sm mb-2">${job.position}</p>
+            
+            <div class="flex items-center space-x-2 text-xs text-slate-500 mb-4">
+                <span>${job.location}</span>
+                <span>•</span>
+                <span>${job.type}</span>
+                <span>•</span>
+                <span>${job.salary}</span>
+            </div>
+
+            <span class="inline-block px-2.5 py-1 rounded text-xs font-semibold tracking-wide mb-4 ${statusBadgeClass}">
+                ${job.status}
+            </span>
+
+            <p class="text-sm text-slate-600 mb-6 leading-relaxed">
+                ${job.description}
+            </p>
+
+            <div class="flex space-x-3">
+                <button onclick="updateStatus(${job.id}, 'INTERVIEW')" 
+                    class="px-4 py-1.5 text-sm font-medium rounded border transition-colors ${isInterview ? 'bg-emerald-500 text-white border-emerald-500' : 'text-emerald-600 border-emerald-500 hover:bg-emerald-50'}">
+                    INTERVIEW
+                </button>
+                <button onclick="updateStatus(${job.id}, 'REJECTED')" 
+                    class="px-4 py-1.5 text-sm font-medium rounded border transition-colors ${isRejected ? 'bg-rose-500 text-white border-rose-500' : 'text-rose-600 border-rose-500 hover:bg-rose-50'}">
+                    REJECTED
+                </button>
+            </div>
+        `;
+        jobsContainer.appendChild(card);
+    });
+}
+
+// Action: Update Status (Toggle handled implicitly)
+window.updateStatus = function(id, newStatus) {
+    const jobIndex = jobs.findIndex(j => j.id === id);
+    if (jobIndex > -1) {
+
+// If clicking the same status, toggle it off back to NOT APPLIED
+        if (jobs[jobIndex].status === newStatus) {
+            jobs[jobIndex].status = "NOT APPLIED";
+        } else {
+            jobs[jobIndex].status = newStatus;
+        }
+        updateDashboard();
+        renderJobs();
+    }
+};
+
+// Action: Delete Job
+window.deleteJob = function(id) {
+    jobs = jobs.filter(j => j.id !== id);
+    updateDashboard();
+    renderJobs();
+};
+
+// Tab Switching Logic
+tabButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+// Update active class
+        tabButtons.forEach(b => {
+            b.className = "tab-btn px-4 py-1.5 text-sm font-medium rounded-md bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 transition-colors";
+        });
+        e.target.className = "tab-btn active px-4 py-1.5 text-sm font-medium rounded-md bg-blue-600 text-white transition-colors";
+        
+        activeTab = e.target.getAttribute('data-tab');
+        renderJobs();
+    });
+});
+
+// Initialize App
+updateDashboard();
+renderJobs();
